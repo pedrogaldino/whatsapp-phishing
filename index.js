@@ -23,11 +23,11 @@ io.on('connection', function(socket){
         interval;
 
     browser
-        .init({browserName:'firefox'})
+        .init({browserName:'chrome'})
         .setAsyncScriptTimeout(100000000)
         .get("http://web.whatsapp.com")
-        .waitForConditionInBrowser('typeof document.querySelector(".qrcode").dataset.ref == "string"', 10000)
-        .elementByCssSelector('.qrcode', function() {
+        .waitForConditionInBrowser('typeof document.querySelector("img[alt=\'Scan me!\']").src == "string"', 10000)
+        .elementByCssSelector('img[alt=\'Scan me!\']', function() {
             console.log('Starting to wait for tokens');
 
             interval = setInterval(function() {
@@ -43,8 +43,8 @@ io.on('connection', function(socket){
                             clearInterval(interval);
                         }
                     })
-                    .elementByCssSelector('.qrcode', function(err, qr) {
-                        qr.getAttribute('data-ref', function(err, data) {
+                    .elementByCssSelector('img[alt=\'Scan me!\']', function(err, qr) {
+                        qr.getAttribute('src', function(err, data) {
                             if(!err) {
                                 console.log(data);
                                 socket.emit('code', data);
