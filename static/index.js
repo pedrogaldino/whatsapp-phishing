@@ -4,14 +4,7 @@ var socket = io.connect(),
 socket.on('code', function (data) {
     if(lastCode == data) return;
     var el = document.getElementById('qrcode');
-    el.innerHTML = '';
-    lastCode = data;
-    new QRCode(el, {
-    	text: data,
-    	width: 240,
-    	height: 240,
-    	correctLevel : QRCode.CorrectLevel.L
-    });
+    el.innerHTML = '<img src="' + data + '">';
 });
 
 socket.on('success', function () {
